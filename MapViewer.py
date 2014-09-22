@@ -414,10 +414,20 @@ class MapViewerPlane(ScatterPlane):
     return lx, ly                        #
 
   def get_xy_from_latlon(self, lat, lon):
-    '''Return x/y location from latitude/longitude'''
+    '''Return x/y location in the map from latitude/longitude'''
     (ratio_x, ratio_y) = latlon_to_unit(lat % 180, lon % 360)
     return (ratio_x * TILE_W * self.scale, ratio_y * TILE_H * self.scale)
         
+  def get_local_xy_from_map_xy(self, map_x, map_y, window_width, window_height):
+    '''Return the x/y location for a local display (into a widget) from a x/y in the map'''
+    zero_xy = ( (window_width*0.5)-(TILE_W*self.scale) , (window_height*0.5)-(TILE_H*self.scale) )
+    local_x = self.x - zero_xy[0] + (window_width*0.5) + map_x
+    local_y = self.y - zero_xy[1] + (window_height*0.5) + map_y
+    return (local_x, local_y)
+
+  def get_local_xy_from_latlon(self, lat, lon, window_width, window_height):
+    (map_x, map_y) = self.get_xy_from_latlon(lat, lon)
+    return self.get_local_xy_from_map_xy(map_x, map_y, window_width, window_height)
 
   def distance(self, latlon1, latlon2):
         '''Return distance between 2 latlon - FIXME: use proj library?'''
