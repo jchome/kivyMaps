@@ -24,7 +24,7 @@ from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
-from kivy.graphics import Color, Rectangle, Ellipse, Line
+from kivy.graphics import Color, Rectangle
 from kivy.graphics.transformation import Matrix
 from kivy.vector import Vector
 
@@ -34,7 +34,8 @@ from os.path import join, dirname
 from TileServer import TileServer
 from projections import *
 
-from WFSOverlayServer import GMLNS
+from overlays.WFSOverlayServer import WFSOverlayServer
+#from WFSOverlayServer import GMLNS
 
 from os import _exit
 INACTIVITY_TIMEOUT = 300 # in s - if close_on_idle is True, mapviewer will exit the application after prolonged inactivity
@@ -347,38 +348,9 @@ class MapViewerPlane(ScatterPlane):
             if image.loaded:
               self.legend_cb(image)
 
-      elif overlay.type == "wfs":
-          geometries = None
-          if self.lastmove is None or time.time() > self.lastmove + 0.5: # wait a second after moving before we try to contact the WFS
-            geometries = overlay.get(self, parent.width, parent.height)
-          if geometries is not None:
-            with self.canvas:
-              for geom in geometries:
-                if geom.tag == "{%s}Point" % GMLNS:
-                  copos = map(float,geom.getchildren()[0].text.split())
-                  l, m = overlay.co_to_ll(copos[0], copos[1])
-                  x,y = self.get_xy_from_latlon(l, m) 
-                  
-                  Color(0, 0, 0)
-                  r = 10.0/self.scale
-                  Ellipse(pos=(x-r/2, y-r/2), size=(r,r))
-                  Color(1, 1, 1)
-                  r = 8.0/self.scale
-                  Ellipse(pos=(x-r/2, y-r/2), size=(r,r))
-                  print x,y,r
-                elif geom.tag == "{%s}LinearRing" % GMLNS:
-                  #copos = map(float,geom.getchildren()[0].text.split())
-                  #points = []
-                  #for i in xrange(0,len(copos),2):
-                  #  l, m = overlay.co_to_ll(copos[0], copos[1])
-                  #  x, y = self.get_xy_from_latlon(l, m) 
-                  #  points.append(x)
-                  #  points.append(y)
-                  #points.extend(points[0:1])
-                  #Color(1, 0.5, 0.5)
-                  #Line(points=points)
-                  pass
-          
+      else: #if overlay.type == "wfs":
+          overlay.draw_in(self)
+
     if self.status_cb:
       self.status_cb(self.tileserver.q_count, self.tilecount)
 
