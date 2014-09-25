@@ -16,7 +16,9 @@ from threading import Condition, Thread, Event
 from urllib2 import urlopen
 from random import randint
 
-from projections import *
+from kvmap_core.projections import unit_to_latlon, fix180
+
+__all__= ('TileServer')
 
 ### static configuration - TODO: parametrize ####################################
 # number of threads to use
@@ -28,6 +30,8 @@ TILESERVER_MAXPIPELINE = 2
 Cache.register('tileserver.tiles', limit=10, timeout=10) #1000/10000
 Cache.register('tileserver.tilesalpha', limit=10, timeout=10)
 #################################################################################
+
+GMAPS_CROPSIZE=256
 
 class TileServer(object):
     '''Base implementation for a tile provider.

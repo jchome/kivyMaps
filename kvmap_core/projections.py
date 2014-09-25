@@ -1,3 +1,11 @@
+
+__all__ = ('latlon_to_unit', 'unit_to_latlon', 'p4326_to_unit', 'unit_to_p4326', 'GCONST', 
+		'latlon_to_google', 'google_to_latlon', 'unit_to_custom', 'custom_to_latlon', 'fix180')
+
+pLatlon = None
+p32633 = None
+pGoogle = None
+
 try: 
   from pyproj import Proj, transform
 
@@ -18,8 +26,11 @@ try:
   #############################################################################################
     
 except ImportError:
-  pass
-from math import pi, sin, cos, atan2, sqrt, radians, log, atan, exp, tan
+  def project_to_unit(proj, x, y):
+    pass
+  def unit_to_project(proj, x, y):
+    pass
+from math import pi, log, atan, exp, tan
 
 ### utility methods for projection ############################################################
 

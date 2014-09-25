@@ -1,5 +1,8 @@
-from TileServer import *
-from projections import *
+from kvmap_core.projections import unit_to_project, unit_to_p4326
+from kvmap_core.TileServer import TileServer
+from urllib import urlopen
+
+__all__ = ('WMSTileServer', 'OSMWMSTileServer')
 
 try:
   from pyproj import Proj
@@ -74,4 +77,4 @@ class OSMWMSTileServer(WMSTileServer):
       self.initFromGetCapabilities('http://129.206.229.158', '/cached/osm', index=1)
       super(WMSTileServer, self).__init__(**kwargs) 
 
-TileServer.register(OSMWMSTileServer)    
+TileServer.register(OSMWMSTileServer)

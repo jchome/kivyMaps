@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import kivy
+from kvmap_core.MapViewer import MapViewerPlane
 kivy.require('1.0.7')
 
 from kivy.app import App
@@ -9,8 +10,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from sidepanel import SidePanel
-from MapViewer import MapViewer
-import WMSTileServer
+from kvmap_core.MapViewer import MapViewer
+
 from WMSOverlayServer import *
 
 

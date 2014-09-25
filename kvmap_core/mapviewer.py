@@ -5,6 +5,9 @@
   sourced from mtMaps for pyMT by tito (Mathieu Virbel / kivy dev team)
   ported to kivy by relet (Thomas Hirsch / Statens kartverk)
 '''
+from kvmap_core.projections import latlon_to_unit, unit_to_latlon
+
+__all__ = ('MapViewerPlane', 'MapViewer')
 
 import kivy
 kivy.require('1.0.7')
@@ -31,10 +34,12 @@ from kivy.vector import Vector
 import time, pickle
 from os.path import join, dirname
 
-from TileServer import TileServer
-from projections import *
+from kvmap_core import projections
+
+from kvmap_core.tileserver import TileServer
 
 from overlays.WFSOverlayServer import WFSOverlayServer
+from math import log, radians, sin, cos, atan2, sqrt
 #from WFSOverlayServer import GMLNS
 
 from os import _exit
@@ -46,6 +51,7 @@ TILE_W = 256
 TILE_H = 256
 ###############################################################################################
 
+GL_CLAMP = None 
 
 class MapViewerPlane(ScatterPlane):
   '''Infinite map plane, displays only tiles on the screen. Uses TileServer to provide tiles.

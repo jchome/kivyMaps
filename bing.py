@@ -2,7 +2,7 @@ import kivy
 kivy.require('1.0.7')
 
 from kivy.app import App
-from MapViewer import MapViewer
+from kvmap_core.mapviewer import MapViewer
 
 class BingMap(App):
   def build(self):

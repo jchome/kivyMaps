@@ -1,4 +1,3 @@
-from projections import *
 from urllib2 import urlopen
 from httplib import HTTPConnection
 from threading import Thread
@@ -11,6 +10,7 @@ import time, os
 import hashlib
 
 from overlays.overlayserver import OverlayServer
+from kvmap_core import projections
 
 
 GMLNS = "http://www.opengis.net/gml"
