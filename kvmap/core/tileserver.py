@@ -16,7 +16,7 @@ from threading import Condition, Thread, Event
 from urllib2 import urlopen
 from random import randint
 
-from kvmap_core.projections import unit_to_latlon, fix180
+from kvmap.core.projections import unit_to_latlon, fix180
 
 __all__= ('TileServer')
 

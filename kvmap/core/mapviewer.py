@@ -5,7 +5,7 @@
   sourced from mtMaps for pyMT by tito (Mathieu Virbel / kivy dev team)
   ported to kivy by relet (Thomas Hirsch / Statens kartverk)
 '''
-from kvmap_core.projections import latlon_to_unit, unit_to_latlon
+from kvmap.core.projections import latlon_to_unit, unit_to_latlon
 
 __all__ = ('MapViewerPlane', 'MapViewer')
 
@@ -34,11 +34,10 @@ from kivy.vector import Vector
 import time, pickle
 from os.path import join, dirname
 
-from kvmap_core import projections
+from kvmap.core import projections
+from kvmap.core.tileserver import TileServer
 
-from kvmap_core.tileserver import TileServer
-
-from overlays.WFSOverlayServer import WFSOverlayServer
+from kvmap.overlays.WFSOverlayServer import WFSOverlayServer
 from math import log, radians, sin, cos, atan2, sqrt
 #from WFSOverlayServer import GMLNS
 

@@ -1,4 +1,4 @@
-from projections import *
+from kvmap.code.projections import *
 from urllib2 import urlopen
 from httplib import HTTPConnection
 from threading import Thread
@@ -16,7 +16,7 @@ except:
 
 class WMSOverlayServer(object):
     cache = {} 
-    available_maptype = dict(roadmap = 'Roadmap') # default
+    available_maptype = dict(roadmap='Roadmap')  # default
     type = "wms"
  
     '''Generic WMS server'''
@@ -45,9 +45,9 @@ class WMSOverlayServer(object):
         return self.cache[key]
         
       try:
-        image = Loader.image('http://' + self.provider_host + url, progress_callback = self.progress_callback)
+        image = Loader.image('http://' + self.provider_host + url, progress_callback=self.progress_callback)
         self.cache[key] = image
-      except Exception,e:
+      except Exception, e:
         Logger.error('OverlayServer could not find (or read) image %s [%s]' % (url, e))
         image = None
         
@@ -56,7 +56,7 @@ class WMSOverlayServer(object):
         self.triedlegend = True
         layer = self.layer
         if "," in layer:
-          layer=layer[layer.rindex(",")+1:]
+          layer = layer[layer.rindex(",") + 1:]
         if self.legendlayer: 
           layer = self.legendlayer
         url = self.baseurl + "?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=%s&ext=.png" % (layer)
@@ -64,28 +64,28 @@ class WMSOverlayServer(object):
           print 'http://' + self.provider_host + url
           image = Loader.image('http://' + self.provider_host + url)
           self.legend = image
-        except Exception,e:
+        except Exception, e:
           Logger.error('OverlayServer could not find LEGENDGRAPHICS for %s %s' % (self.baseurl, layer))
       return self.legend
 
     def xy_to_co(self, lat, lon):
       if self.customBounds: 
         x, y = latlon_to_custom(lat, lon, self.bounds)
-      elif self.isPLatLon:   # patch for android - does not require pyproj library
+      elif self.isPLatLon:  # patch for android - does not require pyproj library
         x, y = lon, lat
-      elif self.isPGoogle: # patch for android - does not require pyproj library
+      elif self.isPGoogle:  # patch for android - does not require pyproj library
         x, y = latlon_to_google (lat, lon)
       else:
         x, y = transform(pLatlon, self.projection, lon, lat)
-      return x,y
+      return x, y
 
-    def co_to_ll(self, x,y):
+    def co_to_ll(self, x, y):
       if self.customBounds: 
         u, v = custom_to_unit(lat, lon, self.bounds)
         l, m = unit_to_latlon(u, v)
-      elif self.isPLatLon:   # patch for android - does not require pyproj library
+      elif self.isPLatLon:  # patch for android - does not require pyproj library
         l, m = y, x
-      elif self.isPGoogle: # patch for android - does not require pyproj library
+      elif self.isPGoogle:  # patch for android - does not require pyproj library
         l, m = google_to_latlon (y, x)
       else:
         l, m = transform(self.projection, pLatlon, y, x)
@@ -105,7 +105,7 @@ class WMSOverlayServer(object):
       except:
         name = None
       srss = layer.findall("SRS")
-      if name:# and srss:
+      if name:  # and srss:
         data[name] = map(lambda x:x.text, srss)
         if self.debug:
           print "Provider %s provides layer %s in projections %s" % (self.provider_host, name, data[name])
@@ -113,7 +113,7 @@ class WMSOverlayServer(object):
       for sub in subs:
         self.parseLayer(sub, data)
       
-    def initFromGetCapabilities(self, host, baseurl, layer = None, index = 0, srs = None):
+    def initFromGetCapabilities(self, host, baseurl, layer=None, index=0, srs=None):
       self.debug = (layer == None) and (index == 0)
       # GetCapabilities (Layers + SRS)
       if layer is None or srs is None:
@@ -122,7 +122,7 @@ class WMSOverlayServer(object):
             tree = ET.fromstring(capabilities)
             if self.debug:
               ET.dump(tree)
-            layers = tree.findall("Capability/Layer") #TODO: proper parsing of cascading layers and their SRS
+            layers = tree.findall("Capability/Layer")  # TODO: proper parsing of cascading layers and their SRS
             data = {}
             for l in layers:
               self.parseLayer(l, data)
@@ -145,9 +145,9 @@ class WMSOverlayServer(object):
       self.legend = None
       self.legendlayer = None
       self.triedlegend = False
-      if srs=="EPSG:4326":
+      if srs == "EPSG:4326":
         self.isPLatLon = True
-      elif srs=="EPSG:900913" or srs == "EPSG:3857":
+      elif srs == "EPSG:900913" or srs == "EPSG:3857":
         self.isPGoogle = True
         try:
           self.projection = pGoogle

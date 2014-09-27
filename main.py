@@ -14,8 +14,8 @@ from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.config import Config
 
-from kvmap_core.mapviewer import MapViewer
-from overlays.simpleoverlayserver import SimpleOverlayServer
+from kvmap.core.mapviewer import MapViewer
+from simpleoverlayserver import SimpleOverlayServer
 
 window_width = 450
 window_height = 800

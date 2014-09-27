@@ -3,11 +3,11 @@ Created on Sep 23, 2014
 
 @author: Julien CORON
 '''
-from overlays.overlayserver import OverlayServer
+from kvmap.overlays.overlayserver import OverlayServer
 
 
 from kivy.graphics import Color,Ellipse
-from overlays.pointofinterest import PointOfInterest
+from pointofinterest import PointOfInterest
 
 class SimpleOverlayServer(OverlayServer):
 	'''

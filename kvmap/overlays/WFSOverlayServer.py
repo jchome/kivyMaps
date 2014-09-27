@@ -9,8 +9,8 @@ from os.path import join, dirname
 import time, os
 import hashlib
 
-from overlays.overlayserver import OverlayServer
-from kvmap_core import projections
+from kvmap.overlays.overlayserver import OverlayServer
+from kvmap.core import projections
 
 
 GMLNS = "http://www.opengis.net/gml"

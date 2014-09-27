@@ -1,5 +1,5 @@
-from kvmap_core.projections import unit_to_project, unit_to_p4326
-from kvmap_core.TileServer import TileServer
+from kvmap.core.projections import unit_to_project, unit_to_p4326
+from kvmap.core.TileServer import TileServer
 from urllib import urlopen
 
 __all__ = ('WMSTileServer', 'OSMWMSTileServer')

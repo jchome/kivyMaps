@@ -1,1 +1,0 @@
-__all__= ('overlayserver', 'simpleoverlayserver', 'WFSOverlayServer', 'WMSOverlayServer', 'pointofinterest')
